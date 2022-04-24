@@ -1,0 +1,37 @@
+{
+  "name": "dailybot",
+  "version": "1.0.0",
+  "description": "Bot de rotinas para telegram",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucaoMendes/DailyBot.git"
+  },
+  "keywords": [
+    "telegram-bot",
+    "telegraf"
+  ],
+  "author": "LucaoMendes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucaoMendes/DailyBot/issues"
+  },
+  "homepage": "https://github.com/LucaoMendes/DailyBot#readme",
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.3",
+    "firebase": "^9.6.11",
+    "forever": "^4.0.3",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.19.0",
+    "telegraf": "^4.7.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  }
+}
