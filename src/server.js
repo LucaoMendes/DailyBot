@@ -24,7 +24,7 @@ const app = express()
 
 app.use(express.json())
 app.use(routes)
-app.listen(80)
+app.listen(8000)
 
 
 
@@ -45,14 +45,17 @@ const stage = new Scenes.Stage(scenes)
 bot.use(session())
 bot.use(stage.middleware())
 bot.command('commands',ctx => sendCommand(ctx,'commands') )
-bot.command('tasks',ctx => sendCommand(ctx,'tasks'))
 bot.command('newtask',enter('createTaskWizard'))
 bot.command('seemytasks',ctx => sendCommand(ctx,'seemytasks'))
 
+
+
+bot.hears(/(\d{2}:\d{2})/,ctx =>{
+    texto = ctx.match[1]
+    hour = texto.split(':')
+    console.log(hour)
+})
 bot.on('text',ctx=> whatDidUSay(ctx,sendMessageTo))
-
-
-
 bot.launch()
 
 
@@ -61,7 +64,11 @@ bot.launch()
 
 
 async function sendCommand(ctx,command){
-    let verified = await isVerified(ctx,sendMessageTo)
+   
+    if(command != 'start')
+        verified = await isVerified(ctx,sendMessageTo)
+    else 
+        verified = true
     if(verified){
         mensagem = await loading(ctx)
         ctx.msgId = mensagem.message_id
@@ -69,12 +76,13 @@ async function sendCommand(ctx,command){
             case 'start':
                 registerChat(ctx,sendMessageTo)
             break;
-            case 'tasks':
+            case 'seemytasks':
                 seeMyTasks(ctx,sendMessageTo)
             break;
             case 'commands':
                 seeMyCommands(ctx,sendMessageTo)
             break;
+            
         }
     }
 }

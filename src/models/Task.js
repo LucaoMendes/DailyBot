@@ -6,13 +6,17 @@ class Task extends Model {
             chat_id : DataTypes.INTEGER,
             name: DataTypes.STRING,
             description: DataTypes.STRING,
-            scheduledAt: DataTypes.INTEGER,
+            config: DataTypes.JSON,
             active: DataTypes.BOOLEAN,
         },{
             sequelize
         })
     }
     static associate(models){
+        this.belongsTo(models.Chat,{
+            foreignKey: 'chat_id',
+            as:'owner'
+        })
     }
 
 

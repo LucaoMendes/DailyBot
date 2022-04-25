@@ -57,7 +57,42 @@ module.exports = {
         thisUserTasks = await ChatController.getMyTasksByTelegram(ctx.message.from.id)
         if(thisUserTasks.success)
             if(thisUserTasks.tasks.length > 0){
-                
+                console.log(thisUserTasks.tasks)
+
+                message = `Olá ${ctx.message.from.first_name},\n`
+                + `Você tem ${thisUserTasks.tasks.length} tarefas comigo em!\n`
+                + `Não vá vacilar\n\n`
+                msg = {
+                    user: ctx.message.from.id,
+                    msg: message,
+                    msgId: ctx.msgId,
+                    extra: {
+                        parse_mode: 'HTML'
+                    }
+                    
+                }
+                sendMessage(msg)
+
+                thisUserTasks.tasks.forEach(task => {
+                    console.log(task)
+
+                    message = `Nome: <b>${task.name}</b>\nDescrição:<b>${task.description}</b>\n`
+                            +  `${task.config.repeat?"Repetitivo":"Uma única Vez"}\n`
+                            +  `${task.config.repeatConfig == 'min' ? `A cada ${task.config.repeatAfter} minuto${task.config.repeatAfter>1?'s':''}\n`:''}`
+                            +  `${task.config.repeatConfig == 'hour' ? `A cada ${task.config.repeatAfter} hora${task.config.repeatAfter>1?'s':''}\n`:''}`
+                            +  `${task.config.repeatConfig == 'this_hour' ? `Às ${task.config.this_hour.hours}:${task.config.this_hour.minutes}\n`:''}`
+                            +  `${task.config.scheduledAt.date != null ? `Somente no dia ${task.config.scheduledAt.date}/${task.config.scheduledAt.month} às ${task.config.scheduledAt.hours}:${task.config.scheduledAt.minutes}\n`:''}`
+                            + `\n`
+                            msg = {
+                                user: ctx.message.from.id,
+                                msg: message,
+                                extra: {
+                                    parse_mode: 'HTML'
+                                }
+                                
+                            }
+                            sendMessage(msg)
+                })
             }else{
                 msg = {
                     user: ctx.message.from.id,
@@ -70,11 +105,12 @@ module.exports = {
                     }
                     
                 }
+                sendMessage(msg)
             }
         else    
             console.log("ERRO: ",thisUserTasks.error)
         
-        sendMessage(msg)
+        
     },
     async createTask(ctx,sendMessage){
 
