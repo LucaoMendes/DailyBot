@@ -28,7 +28,7 @@ module.exports = {
         sendMessage(msg)
     },
     async whatDidUSay(ctx,sendMessage){
-        msg = {
+       msg = {
             user: ctx.message.from.id,
             msg: "Não entendi nada do que você falou =(\n"
                 +"Envie /commands para saber tudo o que eu posso fazer 😝",
@@ -75,6 +75,9 @@ module.exports = {
             console.log("ERRO: ",thisUserTasks.error)
         
         sendMessage(msg)
+    },
+    async createTask(ctx,sendMessage){
+
     },
     async isVerified(ctx,sendMessage){
         let hasChat = await ChatController.getChat(ctx.message.from)
